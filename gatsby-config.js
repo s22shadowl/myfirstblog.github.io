@@ -1,6 +1,4 @@
-import type { GatsbyConfig } from "gatsby";
-
-const config: GatsbyConfig = {
+const config = {
   siteMetadata: {
     title: `test`,
     siteUrl: `https://www.yourdomain.tld`
@@ -14,5 +12,3 @@ const config: GatsbyConfig = {
     __key: "pages"
   }]
 };
-
-export default config;
