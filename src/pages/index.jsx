@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "@emotion/styled";
+import { graphql } from "gatsby"
 
 // styles
 const Page = styled.div`
@@ -39,9 +40,7 @@ const GameInfo = styled.div`
   display: flex;
 `;
 
-const GameImg = styled.img`
-  width: 250px;
-`;
+
 
 const Description = styled.p`
   color: white;
@@ -56,24 +55,11 @@ const Logo = styled.img`
   top: 20px;
 `;
 
-// data
-const Games = [
-  {
-    text: "第二十二個遊戲",
-    url: "https://www.openbook.org.tw/article/p-65682",
-    description: "史萊姆的第二十二個遊戲，真的很好丸。",
-    image_src: "https://i.imgur.com/ZR3QLzG.jpeg",
-  },
-  {
-    text: "第兩百二十二個遊戲",
-    url: "https://www.openbook.org.tw/article/p-65682",
-    description: "史萊姆的第兩百二十二個遊戲，比上面的還好丸。",
-    image_src: "https://i.imgur.com/ZR3QLzG.jpeg",
-  },
-];
-
 // markup
-const IndexPage = () => {
+const IndexPage = ({data}) => {
+
+  const { edges: posts } = data.allMdx
+
   return (
     <Page>
       <title>史萊姆的第二十二個家</title>
@@ -83,12 +69,11 @@ const IndexPage = () => {
       />
       <Heading>歡迎來到史萊姆的第二十二個家</Heading>
       <List>
-        {Games.map((game) => (
-          <Game key={game.url}>
-            <Link href={game.url}>{game.text}</Link>
+        {posts.map(({ node: post }) => (
+          <Game key={post.id}>
+            <Link href={`articles/${post.slug}`}>{post.frontmatter.title}</Link>
             <GameInfo>
-              <GameImg src={game.image_src}></GameImg>
-              <Description>{game.description}</Description>
+              <Description>{post.excerpt}</Description>
             </GameInfo>
           </Game>
         ))}
@@ -96,5 +81,23 @@ const IndexPage = () => {
     </Page>
   );
 };
+
+
+export const pageQuery = graphql`
+  query indexPage {
+    allMdx {
+      edges {
+        node {
+          id
+          excerpt
+          frontmatter {
+            title
+          }
+          slug
+        }
+      }
+    }
+  }
+`
 
 export default IndexPage;

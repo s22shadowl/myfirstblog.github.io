@@ -6,9 +6,8 @@ module.exports = {
   plugins: ["gatsby-plugin-emotion", "gatsby-plugin-react-helmet", "gatsby-plugin-mdx", {
     resolve: 'gatsby-source-filesystem',
     options: {
-      "name": "pages",
-      "path": "./src/pages/"
+      "name": "articles",
+      "path": "./src/articles/"
     },
-    __key: "pages"
   }]
 };
